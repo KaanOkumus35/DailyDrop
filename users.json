@@ -2,18 +2,18 @@
     {
         "username": "Mina",
         "password": "asd,",
-        "goal": 2000,
-        "total": 500,
-        "last_log_date": "2025-05-29",
-        "streak": 1
+        "goal": 2500,
+        "total": 0,
+        "last_log_date": null,
+        "streak": 0
     },
     {
         "username": "Kaan",
         "password": "asd",
-        "goal": 500,
-        "total": 150,
-        "last_log_date": "2025-05-31",
-        "streak": 1
+        "goal": 2000,
+        "total": 0,
+        "last_log_date": null,
+        "streak": 0
     },
     {
         "username": "Mina",
@@ -134,6 +134,14 @@
     {
         "username": "Hallo",
         "password": "scrypt:32768:8:1$9rTelh68AINw5MSs$a0ccbfda88d5fad5d1653f1506b7c1ddfb679dfd064d9db42398cb177b45b2016df359687d3a945c3f3426155d792b0ce51a3bb4055dfd6cbc325886b8189c82",
+        "goal": 2000,
+        "total": 0,
+        "last_log_date": null,
+        "streak": 0
+    },
+    {
+        "username": "Mina",
+        "password": "scrypt:32768:8:1$Xdi3jCNWC5IXUytU$5f6225e0e2b01fff3db16594ac3b55c3c200b03f14ac53946b1b7e3b852226c34497094f09182f009795debe8b7d8846bcc1b1d6c6cfee6bb23285bf389d9b36",
         "goal": 2000,
         "total": 0,
         "last_log_date": null,

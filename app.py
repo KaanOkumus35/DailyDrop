@@ -11,22 +11,27 @@ app.secret_key = "supersecret"
 def update_user_data():
     if not os.path.exists("users.json"):
         return
+
     with open("users.json", "r") as f:
         try:
             users = json.load(f)
         except json.JSONDecodeError:
             return
 
+    username = session.get("username")
+    if not username:
+        return
+
     for user in users:
-        if user["username"] == session["username"]:
-            user["goal"] = session["goal"]
-            user["total"] = session["total"]
+        if user["username"] == username:
+            user["goal"] = session.get("goal", 2000)
+            user["total"] = session.get("total", 0)
             user["last_log_date"] = session.get("last_log_date")
             user["streak"] = session.get("streak", 0)
             break
 
     with open("users.json", "w") as f:
-        json.dump(users, f , indent=4)
+        json.dump(users, f, indent=4)
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
@@ -49,7 +54,7 @@ def login():
             if user["username"] == username and check_password_hash(user["password"],password):
                 session["logged_in"] = True
                 session["username"] = username
-                session["goal"] = user.get("goal", 2000)
+                session["goal"] = max(user.get("goal", 2000), 1)
                 session["total"] = user.get("total", 0)
                 session["last_log_date"] = user.get("last_log_date")
                 session["streak"] = user.get("streak", 0)
@@ -109,7 +114,7 @@ def set_goal():
     try:
         goal = int(goal_input)
         if goal <= 0:
-            return redirect(url_for("home"), message="❌ Goal must be a positive number!")
+            return redirect(url_for("home", message="❌ Goal must be a positive number!"))
         session["goal"] = int(goal_input)
         update_user_data()
         return redirect(url_for("home", message = f"Goal set to {session['goal']} ml per day!"))
