@@ -86,49 +86,6 @@
             {% endif %}
         </form>
     </div>
-    <script>
-        let deferredPrompt;
-
-        window.addEventListener('beforeinstallprompt', (e) => {
-            e.preventDefault();
-            deferredPrompt = e;
-
-            const installBtn = document.createElement('button');
-            installBtn.innerText = "📲 Install DailyDrop";
-            installBtn.style.padding = "10px";
-            installBtn.style.marginTop = "20px";
-            installBtn.style.background = "#1ca3ec";
-            installBtn.style.color = "white";
-            installBtn.style.border = "none";
-            installBtn.style.borderRadius = "10px";
-            installBtn.style.fontSize = "1rem";
-            installBtn.style.display = "block";
-            installBtn.style.width = "100%";
-
-            document.querySelector(".login-box").appendChild(installBtn);
-
-            installBtn.addEventListener('click', () => {
-                installBtn.style.display = 'none';
-                deferredPrompt.prompt();
-                deferredPrompt.userChoice.then(choice => {
-                    if (choice.outcome === 'accepted') {
-                        console.log("✅ App Installed");
-                    } else {
-                        console.log("❌ Install dismissed");
-                    }
-                    deferredPrompt = null;
-                });
-            });
-        });
-    </script>
-
-    <script>
-        if ("serviceWorker" in navigator) {
-            navigator.serviceWorker.register("/static/service-worker.js")
-            .then(() => console.log("✅ Service Worker Registered"))
-            .catch(err => console.error("❌ Service Worker Error:", err));
-        }
-    </script>
 
 </body>
 </html>
