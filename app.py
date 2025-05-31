@@ -3,7 +3,6 @@ import json
 import os
 from datetime import date,datetime,timedelta
 from multiprocessing.managers import Value
-
 from flask import Flask, render_template, request, redirect, url_for, session
 
 app = Flask(__name__)
@@ -159,6 +158,8 @@ def subtract_water():
 
 @app.route("/logout")
 def logout():
+    if session.get("logged_in"):
+        update_user_data()
     session.clear()
     return redirect(url_for("login"))
 
