@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <title>DailyDrop</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #fae5d3;
+            display: flex;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+            justify-content: center;
+            margin: 0;
+        }
+
+        button {
+            padding: 8px 12px;
+            background-color: #b7d9f8;
+            color: black;
+            border:none;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+
+        .index-box{
+            background-color: white;
+            padding: 30px 20px;
+            border-radius: 20px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            max-width: 500px;
+            width: 100%;
+        }
+
+        input {
+            padding: 6px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin: 5px 0;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .message {
+            color:green;
+            font-weight: bold;
+            word-wrap: break-word;
+            max-width: 100%;
+        }
+
+        @media (max-width:600px) {
+            .index-box{
+                padding: 20px 15px;
+                border-radius: 15px;
+            }
+
+            h1, h2, h3, p, label {
+                font-size: 1rem;
+            }
+
+            button {
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+
+    <link rel="manifest" href="/static/manifest.json">
+    <link rel="icon" type="image/png" sizes="192x192" href="/static/icon-192.png">
+    <meta name="theme-color" content="#1ca3ec">
+
+
+
+
+</head>
+<body>
+        <div class="index-box">
+            <h1>Welcome to DailyDrop!</h1>
+            <h2>Current User: {{username}} </h2>
+            <h3>🔥Current Streak: {{ streak }} day{% if streak != 1%}s{% endif %}</h3>
+            <p>💧Your daily goal: {{ goal }} ml</p>
+            <p>✅You've logged: {{ total }} ml so far</p>
+            <p>📊Progress: {{ progress }}%</p>
+            <br>
+            <div style="background-color: #bcbcbc; border-radius:10px;overflow: hidden; width: 100%; max-width: 400px;height: 25px; margin-bottom: 20px;">
+                <div style="height: 100%; width: {{ progress }}%; background-color: #1ca3ec; text-align: center; color: white; line-height: 25px;">
+                    {{ progress }}%
+                </div>
+            </div>
+            {% if message %}
+                <p class="message">✅ {{ message }} </p>
+            {% endif %}
+            <br>
+            <h3>Set Your Daily Goal</h3>
+            <form method="POST" action="/set_goal">
+                <label for="goal">Set your daily water goal(ml): </label>
+                <input type="number" id="goal" name="goal" required min="1">
+                <button type="submit">Set Goal</button>
+            </form>
+            <br>
+            <h3>Log Water Intake</h3>
+            <form method="POST" action="/log">
+                <label for="amount">How much water did you drink so far(ml)?:</label>
+                <input type="number" id="amount" name="amount" required min="1">
+                <button type="submit">Log Intake</button>
+            </form>
+            <p>Need help choosing a goal? Try <strong>35ml per kg of body weight</strong>.</p>
+            <br>
+            <h3>Subtract Water Intake</h3>
+            <form method="POST" action="/subtract">
+                <label for="amount">How much water would you like to subtract(ml)?:</label>
+                <input type="number" id="amount" name="amount" required min="1">
+                <button type="submit">Subtract Intake</button>
+            </form>
+            <br>
+            <p><a href="/logout">Log Out</a></p>
+        </div>
+
+    <script>
+        if ("serviceWorker" in navigator) {
+            navigator.serviceWorker.register("/static/service-worker.js")
+            .then(() => console.log("✅ Service Worker Registered"))
+            .catch(err => console.error("❌ Service Worker Error:", err));
+    }
+    </script>
+
+    <script>
+        let deferredPrompt;
+
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+
+            const installBtn = document.createElement('button');
+            installBtn.innerText = "📲 Install DailyDrop";
+            installBtn.style.padding = "10px";
+            installBtn.style.marginTop = "20px";
+            installBtn.style.background = "#1ca3ec";
+            installBtn.style.color = "white";
+            installBtn.style.border = "none";
+            installBtn.style.borderRadius = "10px";
+            installBtn.style.fontSize = "1rem";
+            installBtn.style.display = "block";
+
+            document.body.appendChild(installBtn);
+
+            installBtn.addEventListener('click', () => {
+                installBtn.style.display = 'none';
+                deferredPrompt.prompt();
+
+            deferredPrompt.userChoice.then((choiceResult) => {
+                if (choiceResult.outcome === 'accepted') {
+                    console.log('✅ User accepted install');
+                } else {
+                    console.log('❌ User dismissed install');
+                }
+                deferredPrompt = null;
+                });
+            });
+        });
+    </script>
+
+</body>
+</html>

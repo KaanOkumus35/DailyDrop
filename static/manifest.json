@@ -1,0 +1,20 @@
+{
+  "name": "DailyDrop",
+  "short_name": "DailyDrop",
+  "start_url": "/login",
+  "display": "standalone",
+  "background_color": "#fae5d3",
+  "theme_color": "#1ca3ec",
+  "icons": [
+    {
+      "src": "/static/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/static/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
