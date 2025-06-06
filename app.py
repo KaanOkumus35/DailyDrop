@@ -2,36 +2,58 @@ from werkzeug.security import generate_password_hash, check_password_hash
 import json
 import os
 from datetime import date,datetime,timedelta
-from multiprocessing.managers import Value
 from flask import Flask, render_template, request, redirect, url_for, session
 
 app = Flask(__name__)
 app.secret_key = "supersecret"
 
 def update_user_data():
+    import pprint
+    import os
+
     if not os.path.exists("users.json"):
+        print("⚠️ users.json not found.")
         return
 
     with open("users.json", "r") as f:
         try:
             users = json.load(f)
         except json.JSONDecodeError:
+            print("⚠️ users.json is not valid JSON.")
             return
 
     username = session.get("username")
     if not username:
+        print("⚠️ No username in session.")
         return
 
-    for user in users:
+    print(f"👤 Updating user: {username}")
+    print("📂 Users before update:")
+    pprint.pprint(users)
+
+    user_found = False
+    for i, user in enumerate(users):
         if user["username"] == username:
-            user["goal"] = session.get("goal", 2000)
-            user["total"] = session.get("total", 0)
-            user["last_log_date"] = session.get("last_log_date")
-            user["streak"] = session.get("streak", 0)
+            users[i]["goal"] = session.get("goal", 2000)
+            users[i]["total"] = session.get("total", 0)
+            users[i]["last_log_date"] = session.get("last_log_date")
+            users[i]["streak"] = session.get("streak", 0)
+            user_found = True
             break
 
-    with open("users.json", "w") as f:
-        json.dump(users, f, indent=4)
+    if user_found:
+        try:
+            with open("users.json", "w") as f:
+                json.dump(users, f, indent=4)
+            print("✅ USERS.JSON UPDATED. New content:")
+            pprint.pprint(users)
+            print("📁 Absolute path of saved file:", os.path.abspath("users.json"))
+        except Exception as e:
+            print(f"❌ Error writing to users.json: {e}")
+    else:
+        print(f"❌ User '{username}' not found.")
+
+
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
@@ -50,8 +72,10 @@ def login():
         else:
             users = []
 
-        for user in users:
-            if user["username"] == username and check_password_hash(user["password"],password):
+
+        for user in reversed(users):
+            if user["username"] == username and check_password_hash(user["password"], password):
+                print("✅ Loaded from users.json:", user)
                 session["logged_in"] = True
                 session["username"] = username
                 session["goal"] = max(user.get("goal", 2000), 1)
@@ -61,6 +85,7 @@ def login():
                 return redirect(url_for("home"))
 
         return redirect(url_for("login", message="Incorrect"))
+
     return render_template("login.html", message=message)
 
 @app.route("/register", methods=["GET","POST"])
@@ -77,6 +102,10 @@ def register():
                     users = []
         else:
             users = []
+
+        for user in users:
+            if user["username"] == username:
+                return redirect(url_for("register", message="❌ Username already exists!"))
 
         users.append({
             "username" : username,
