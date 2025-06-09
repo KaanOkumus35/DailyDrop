@@ -52,6 +52,13 @@
             color: #0077cc;
             text-decoration: none;
         }
+
+        .message {
+            color: red;
+            font-weight: bold;
+            text-align: center;
+            margin-top: 10px;
+        }
     </style>
 </head>
 <body>
@@ -65,8 +72,11 @@
             <div style="text-align: center;">
                 <button type="submit">Register</button>
             </div>
+            <a href="/login">Already have an account? Login here</a>
+            {% if message == "exist" %}
+                <p class="message">❌ Username already exists!</p>
+            {% endif %}
         </form>
-        <a href="/login">Already have an account? Login here</a>
     </div>
 </body>
 </html>

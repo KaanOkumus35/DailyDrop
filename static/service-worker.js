@@ -3,10 +3,18 @@ self.addEventListener("install", event => {
     caches.open("static-cache").then(cache => {
       return cache.addAll([
         "/",
-        "/static/manifest.json"
+        "/login",
+        "/register",
+        "/static/manifest.json",
+        "/static/icon-192.png",
+        "/static/icon-512.png"
       ]);
-    })
+    }).then(() => self.skipWaiting())
   );
+});
+
+self.addEventListener("activate", event => {
+  event.waitUntil(self.clients.claim());
 });
 
 self.addEventListener("fetch", event => {
@@ -16,3 +24,4 @@ self.addEventListener("fetch", event => {
     })
   );
 });
+
