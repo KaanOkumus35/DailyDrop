@@ -2,6 +2,7 @@
 DailyDrop is a simple and mobile-friendly web app that helps users track their daily water intake, set personal goals, and build healthy hydration habits. With streak tracking, goal customization, and a clean responsive design, DailyDrop keeps hydration fun and effortless.
 
 🚀 Features
+
 ✅ User registration and secure login
 
 🥤 Set and track your daily water intake goal
