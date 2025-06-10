@@ -1,0 +1,17 @@
+# Ignore the virtual environment
+.venv/
+venv/
+
+# Ignore Python cache files
+__pycache__/
+*.pyc
+
+# Ignore database file
+instance/users.db
+
+# Ignore OS and editor metadata
+.DS_Store
+*.swp
+
+# Ignore environment variables
+.env
