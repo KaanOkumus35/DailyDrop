@@ -39,19 +39,24 @@ Progressive Web App (PWA) features with Service Workers + manifest.json
 
 🛠️ Installation & Usage (Local)
 
-Clone the repo:
+1)Clone the repo:
+
 git clone https://github.com/your-username/dailydrop.git
 cd dailydrop
 
-Create virtual environment (optional but recommended):
+2)Create virtual environment (optional but recommended):
+
 python -m venv .venv
 source .venv/bin/activate  # or .venv\Scripts\activate on Windows
 
-Install dependencies:
+3)Install dependencies:
+
 pip install -r requirements.txt
 
-Run the app:
+4)Run the app:
+
 python app.py
+
 Open in your browser:
 Visit http://localhost:5000
 
