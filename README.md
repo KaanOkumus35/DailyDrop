@@ -1,7 +1,8 @@
 💧 DailyDrop
 DailyDrop is a simple and mobile-friendly web app that helps users track their daily water intake, set personal goals, and build healthy hydration habits. With streak tracking, goal customization, and a clean responsive design, DailyDrop keeps hydration fun and effortless.
 
-🚀 Features
+
+🚀 Features:
 
 ✅ User registration and secure login
 
@@ -28,6 +29,7 @@ Home Page:
 
 ![7FF2563A-1E27-41F2-B227-C8BC1F6C5672](https://github.com/user-attachments/assets/51a5d4a8-b2d1-4e31-8683-3a328e7e8061)
 
+
 ⚙️ Tech Stack
 Python & Flask
 
@@ -36,6 +38,7 @@ SQLite (via SQLAlchemy)
 HTML, CSS (mobile-responsive design)
 
 Progressive Web App (PWA) features with Service Workers + manifest.json
+
 
 🛠️ Installation & Usage (Local)
 
@@ -63,6 +66,22 @@ Visit http://localhost:5000
 ☁️ Deployment
 This project is deployed on Render. Once deployed, users can access the site via any browser, and install it like a native app on supported mobile devices. https://dailydrop.onrender.com/
 
+
+🗃️ Database
+
+This app uses SQLite as the database, with a file named users.db.
+
+You don’t need to create it manually — the database is automatically generated when the app runs for the first time:
+
+    with app.app_context():
+    
+      db.create_all()
+
+If you're running the app locally, a new users.db will be created in the instance/ folder.
+
+Note: The users.db file is excluded from version control for privacy and security.
+
+    
 👨‍💻 Author
 Kaan Okumuş
 Student @ Constructor University Bremen
